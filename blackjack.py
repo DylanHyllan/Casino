@@ -3,11 +3,15 @@ dealer = 0
 player = 0
 stand = False
 turn = None
+dealer_hand = []
+player_hand = []
 
 def card():
     global dealer
     global player
     global turn
+    global dealer_hand
+    global player_hand
     group = 0
     amount = 0
     card_value = 0
@@ -68,11 +72,15 @@ def card():
         card_value = 10
     
     if turn == "player":
-        print("You got", card_name, "of", group_name)
+        hand = ("You got", card_name, "of", group_name)
+        player_hand.append(hand)
+        ' '.join(player_hand)
         player = player + card_value
         print(player)
     elif turn == "dealer":
-        print("Dealer got", card_name, "of", group_name)
+        hand = ("Dealer got", card_name, "of", group_name)
+        dealer_hand(hand)
+        ' '.join(dealer_hand)
         dealer = dealer + card_value
         print(dealer)
 
@@ -96,5 +104,6 @@ else:
         card()
         if dealer > player and dealer <= 21:
             win = True
+            print("You lost")
         if dealer > 21:
             loose = True
