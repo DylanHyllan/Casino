@@ -5,6 +5,9 @@ stand = False
 turn = None
 dealer_hand = []
 player_hand = []
+double_down = False
+player_start = False
+dealer_start = False
 
 def card():
     global dealer
@@ -71,18 +74,26 @@ def card():
         card_name = "King"
         card_value = 10
     
+    print("\nhand:")
     if turn == "player":
-        hand = ("You got", card_name, "of", group_name)
-        player_hand.append(hand)
-        ' '.join(player_hand)
+        p_hand = (card_name, "of", group_name,"\n")
+        hand_tuple = ' '.join(str(item) for item in p_hand)
+        player_hand.append(hand_tuple)
+        joined_player_hand = ' '.join(player_hand)
         player = player + card_value
-        print(player)
+        print(player,"\n")
+        print(joined_player_hand)
     elif turn == "dealer":
         hand = ("Dealer got", card_name, "of", group_name)
         dealer_hand(hand)
         ' '.join(dealer_hand)
         dealer = dealer + card_value
         print(dealer)
+        
+
+
+
+
 
 while stand == False and player <= 21:
     turn = "player"
