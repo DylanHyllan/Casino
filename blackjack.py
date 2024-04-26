@@ -1,4 +1,5 @@
 import random
+import time
 dealer = 0
 player = 0
 stand = False
@@ -74,47 +75,89 @@ def card():
         card_name = "King"
         card_value = 10
     
-    print("\nhand:")
+    hand = (card_name, "of", group_name,"\n")
+    hand_tuple = ' '.join(str(item) for item in hand)
+    
+    if player_start == True:
+        print("\nplayer hand:")
+        time.sleep(1)
+        player_hand.append(hand_tuple)
+        joined_player_hand = ' '.join(player_hand)
+        player = player + card_value
+        print(player,"\n")
+        print(joined_player_hand)
+    elif dealer_start == True:
+        print("\n dealer hand:")
+        time.sleep(1)
+        dealer_hand.append(hand_tuple)
+        joined_dealer_hand = ' '.join(dealer_hand)
+        dealer = dealer + card_value
+        print(dealer,"")
+        print(joined_dealer_hand)
+
     if turn == "player":
-        p_hand = (card_name, "of", group_name,"\n")
-        hand_tuple = ' '.join(str(item) for item in p_hand)
+        print("\nplayer hand:")
         player_hand.append(hand_tuple)
         joined_player_hand = ' '.join(player_hand)
         player = player + card_value
         print(player,"\n")
         print(joined_player_hand)
     elif turn == "dealer":
-        hand = ("Dealer got", card_name, "of", group_name)
-        dealer_hand(hand)
-        ' '.join(dealer_hand)
+        print("\n dealer hand:")
+        dealer_hand.append(hand_tuple)
+        joined_dealer_hand = ' '.join(dealer_hand)
         dealer = dealer + card_value
-        print(dealer)
-        
+        print(dealer,"\n")
+        print(joined_dealer_hand)
 
+dealer_start = True
+dealer_hand.append("???\n")
+card()
+dealer_start = False
 
+player_start = True
+time.sleep(1)
+card()
+time.sleep(1)
+card()
+time.sleep(1)
+player_start = False
 
-
-
+ans = input("type 1 to hit, 0 to stand or 3 to double down")
 while stand == False and player <= 21:
     turn = "player"
-    ans = input("type 1 to hit or 0 to stand")
+    time.sleep(1)
     if ans == "1":
         card()
+        ans = input("type 1 to hit, 0 to stand")
     elif ans == "0":
         stand = True
+    elif ans == "3":
+        card()
+        stand = True
+    else:
+        print("fel input")
+    time.sleep(1)
 if player > 21:
-    print("You lost")
-elif player == 21:
-    print("you win")
+    print("Bust")
 else:
     loose = False
     win = False
+    time.sleep(1)
     print("dealer turn")
     while loose == False and win == False:
         turn = "dealer"
+        dealer_start = True
+        dealer_hand.remove("???\n")
+        time.sleep(1)
         card()
+        time.sleep(1)
+        dealer_start = False
+        card()
+        time.sleep(1)
         if dealer > player and dealer <= 21:
             win = True
-            print("You lost")
+            print("Dealer win")
         if dealer > 21:
             loose = True
+            print("You win")
