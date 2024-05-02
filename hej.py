@@ -1,6 +1,5 @@
 import PySimpleGUI as sg
 import random
-import time
 
 dealer = 0
 player = 0
@@ -82,33 +81,16 @@ def card():
     hand_tuple = ' '.join(str(item) for item in hand)
 
     if player_start == True:
-        joined_player_hand = ' '.join(hand_tuple)
-        player_hand.append(joined_player_hand)
+        player_hand.append(hand_tuple)
         player = player + card_value
       
     elif dealer_start == True:
         dealer_hand.append(hand_tuple)
-        joined_dealer_hand = ' '.join(dealer_hand)
-        dealer_hand.append(joined_dealer_hand)
         dealer = dealer + card_value
 
     if turn == "player":
         player = player + card_value
         player_hand.append(hand_tuple)
-
-dealer_start = True
-dealer_hand.append("???")
-card()
-d_show = ' '.join(dealer_hand)
-dealer_start = False
-
-player_start = True
-card()
-card()
-p_start = ' '.join(player_hand)
-player_start = False
-
-
 
 def blackjack_window():
     sg.theme("neonyellow1")
@@ -116,13 +98,12 @@ def blackjack_window():
         [sg.Text(
             "...",
             justification  = "right",
-            expand_y = True,
+            expand_x = True,
             font="franklin 20",
             key="-D_SCORE-")
         ],
         [sg.Text(
             "...",
-            # pad=((10, 350), (100, 10)),
             font="franklin 30",
             expand_x = True,
             key="-D_TEXT-")
@@ -130,13 +111,12 @@ def blackjack_window():
         [sg.Text(
             "...",
             justification  = "right",
-            expand_y = True,
+            expand_x = True,
             font="franklin 20",
             key="-SCORE-")
         ],
         [sg.Text(
-            p_start,
-            # pad=((10, 350), (100, 10)),
+            "...",
             font="franklin 30",
             expand_x = True,
             key="-TEXT-")
@@ -160,9 +140,23 @@ while True:
         window["-TEXT-"].update(show_player_hand)
         window["-SCORE-"].update(player)
         print(show_player_hand)
-        print(show_player_hand)
     
     if event == "Stand":
         turn = "dealer"
-window.close()
+        dealer_start = True
+        dealer_hand.append("???\n")
+        card()
+        window["-D_TEXT-"].update(dealer_hand)
+        window["-D_SCORE-"].update(dealer)
+        dealer_start = False
 
+        player_start = True
+        card()
+        window["-TEXT-"].update(player_hand)
+        window["-SCORE-"].update(player)
+        card()
+        window["-TEXT-"].update(player_hand)
+        window["-SCORE-"].update(player)
+        player_start = False
+
+window.close()
